@@ -1,32 +1,136 @@
-# _Sample project_
+# TestBME280 - ESP-IDF
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+Proyecto de prueba para la lectura del sensor BME280 utilizando ESP-IDF sobre ESP32-S3 mediante comunicación I2C.
 
-This is the simplest buildable example. The example is used by command `idf.py create-project`
-that copies the project to user specified path and set it's name. For more information follow the [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project)
+## Placa utilizada
 
+* Seeed Studio XIAO ESP32-S3
 
+Repositorio:
 
-## How to use example
-We encourage the users to use the example as a template for the new projects.
-A recommended way is to follow the instructions on a [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project).
+[Repositorio del proyecto](https://github.com/JhonVargasB/Terrabots_Jhon?utm_source=chatgpt.com)
 
-## Example folder contents
+---
 
-The project **sample_project** contains one source file in C language [main.c](main/main.c). The file is located in folder [main](main).
+# Clonar el repositorio
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt`
-files that provide set of directives and instructions describing the project's source files and targets
-(executable, library, or both). 
-
-Below is short explanation of remaining files in the project folder.
-
+```bash
+git clone https://github.com/JhonVargasB/Terrabots_Jhon.git
 ```
+
+Ingresar a la carpeta del proyecto:
+
+```bash
+cd Terrabots_Jhon/firmware/semana_01/TestBME280
+```
+
+---
+
+# Seleccionar el target
+
+El proyecto fue desarrollado para ESP32-S3.
+
+Ejecutar:
+
+```bash
+idf.py set-target esp32s3
+```
+
+---
+
+# Compilar el proyecto
+
+```bash
+idf.py build
+```
+
+---
+
+# Flashear al ESP32
+
+```bash
+idf.py flash
+```
+
+---
+
+# Monitor serial
+
+```bash
+idf.py monitor
+```
+
+---
+
+# Conexiones BME280
+
+| BME280    | XIAO ESP32-S3 |
+| --------- | ------------- |
+| VIN / VCC | 3.3V          |
+| GND       | GND           |
+| SDA       | GPIO5         |
+| SCL       | GPIO6         |
+
+---
+
+# Estructura del proyecto
+
+```txt
+TestBME280/
+├── components/
+│   └── bme280/
+│       ├── include/
+│       │   ├── bme280.h
+│       │   └── bme280_defs.h
+│       ├── bme280.c
+│       └── CMakeLists.txt
+│
+├── main/
+│   ├── main.c
+│   └── CMakeLists.txt
+│
 ├── CMakeLists.txt
-├── main
-│   ├── CMakeLists.txt
-│   └── main.c
-└── README.md                  This is the file you are currently reading
+├── sdkconfig
+└── README.md
 ```
-Additionally, the sample project contains Makefile and component.mk files, used for the legacy Make based build system. 
-They are not used or needed when building with CMake and idf.py.
+
+---
+
+# Funcionalidades
+
+* Lectura de temperatura
+* Lectura de humedad
+* Lectura de presión atmosférica
+* Driver modular utilizando `components/`
+* Comunicación I2C mediante ESP-IDF
+
+---
+
+# Configuración I2C
+
+```c
+SDA -> GPIO5
+SCL -> GPIO6
+```
+
+Frecuencia I2C:
+
+```c
+100 kHz
+```
+
+---
+
+# Salida esperada
+
+```txt
+datos obtenidos: T = 24.53 , H = 45.21 , P = 101325.00
+```
+
+---
+
+# Framework utilizado
+
+* ESP-IDF v5.x
+* FreeRTOS
+* Driver I2C Master API
