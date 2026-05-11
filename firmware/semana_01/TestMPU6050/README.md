@@ -1,32 +1,131 @@
-# _Sample project_
+# TestMPU6050 - ESP-IDF
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+Proyecto de prueba para la lectura del sensor MPU6050 utilizando ESP-IDF sobre ESP32-S3.
 
-This is the simplest buildable example. The example is used by command `idf.py create-project`
-that copies the project to user specified path and set it's name. For more information follow the [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project)
+## Requisitos
 
+* ESP-IDF instalado
+* ESP32-S3
+* Sensor MPU6050
+* VSCode + extensión ESP-IDF (opcional)
 
+Repositorio:
 
-## How to use example
-We encourage the users to use the example as a template for the new projects.
-A recommended way is to follow the instructions on a [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project).
+[Repositorio del proyecto](https://github.com/JhonVargasB/Terrabots_Jhon?utm_source=chatgpt.com)
 
-## Example folder contents
+---
 
-The project **sample_project** contains one source file in C language [main.c](main/main.c). The file is located in folder [main](main).
+# Clonar el repositorio
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt`
-files that provide set of directives and instructions describing the project's source files and targets
-(executable, library, or both). 
-
-Below is short explanation of remaining files in the project folder.
-
+```bash
+git clone https://github.com/JhonVargasB/Terrabots_Jhon.git
 ```
+
+Ingresar a la carpeta del proyecto:
+
+```bash
+cd Terrabots_Jhon/firmware/semana_01/TestMPU6050
+```
+
+---
+
+# Seleccionar el target
+
+El proyecto fue desarrollado para ESP32-S3.
+
+Ejecutar:
+
+```bash
+idf.py set-target esp32s3
+```
+
+---
+
+# Compilar el proyecto
+
+```bash
+idf.py build
+```
+
+---
+
+# Flashear al ESP32
+
+```bash
+idf.py flash
+```
+
+---
+
+# Monitor serial
+
+```bash
+idf.py monitor
+```
+
+---
+
+# Conexiones MPU6050
+
+| MPU6050 | ESP32-S3 |
+| ------- | -------- |
+| VCC     | 3.3V     |
+| GND     | GND      |
+| SDA     | GPIO5    |
+| SCL     | GPIO6    |
+
+---
+
+# Estructura del proyecto
+
+```txt
+TestMPU6050/
+├── components/
+│   └── mpu/
+│       ├── include/
+│       │   ├── mpu.h
+│       │   └── mpu_defs.h
+│       ├── mpu.c
+│       └── CMakeLists.txt
+│
+├── main/
+│   ├── main.c
+│   └── CMakeLists.txt
+│
 ├── CMakeLists.txt
-├── main
-│   ├── CMakeLists.txt
-│   └── main.c
-└── README.md                  This is the file you are currently reading
+├── sdkconfig
+└── README.md
 ```
-Additionally, the sample project contains Makefile and component.mk files, used for the legacy Make based build system. 
-They are not used or needed when building with CMake and idf.py.
+
+---
+
+# Funcionalidades
+
+* Lectura de acelerómetro
+* Lectura de giroscopio
+* Conversión a unidades físicas
+* Corrección de offset
+* Driver modular utilizando `components/`
+
+---
+
+# Configuración I2C
+
+```c
+SDA -> GPIO5
+SCL -> GPIO6
+```
+
+Frecuencia I2C:
+
+```c
+400 kHz
+```
+
+---
+
+# Framework utilizado
+
+* ESP-IDF v5.x
+* FreeRTOS
+* Driver I2C Master API
