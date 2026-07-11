@@ -26,6 +26,7 @@ esp_err_t sd_write_file(const char *path, const char *data)
     return ESP_OK;
 }
 
+
 esp_err_t sd_deinit(sd_card_t *sd)
 {
     if (sd == NULL)
@@ -53,18 +54,23 @@ esp_err_t sd_deinit(sd_card_t *sd)
 
     return ESP_OK;
 }
+
+
 esp_err_t sd_read_file(const char *path, char *buffer, size_t buffer_size)
 {
-    if (path == NULL || buffer == NULL || buffer_size == 0) {
+    if (path == NULL || buffer == NULL || buffer_size == 0)
+    {
         return ESP_ERR_INVALID_ARG;
     }
 
     FILE *f = fopen(path, "r");
-    if (f == NULL) {
+    if (f == NULL)
+    {
         return ESP_FAIL;
     }
 
-    if (fgets(buffer, buffer_size, f) == NULL) {
+    if (fgets(buffer, buffer_size, f) == NULL)
+    {
         fclose(f);
         return ESP_FAIL;
     }
@@ -72,12 +78,15 @@ esp_err_t sd_read_file(const char *path, char *buffer, size_t buffer_size)
     fclose(f);
 
     char *pos = strchr(buffer, '\n');
-    if (pos != NULL) {
+    if (pos != NULL)
+    {
         *pos = '\0';
     }
 
     return ESP_OK;
 }
+
+
 
 esp_err_t sd_init(sd_card_t *sd)
 {
@@ -106,6 +115,14 @@ esp_err_t sd_init(sd_card_t *sd)
     esp_err_t ret;
 
     sd->host = (sdmmc_host_t)SDSPI_HOST_DEFAULT();
+    sd->host.slot = SPI2_HOST;
+    sd->host.max_freq_khz = 400;
+
+    ESP_LOGI(TAG, "SD SPI pins: MOSI=%d MISO=%d SCK=%d CS=%d",
+             sd->config.mosi_pin,
+             sd->config.miso_pin,
+             sd->config.sclk_pin,
+             sd->config.cs_pin);
 
     spi_bus_config_t bus_cfg = {
         .mosi_io_num = sd->config.mosi_pin,
@@ -115,6 +132,10 @@ esp_err_t sd_init(sd_card_t *sd)
         .quadhd_io_num = -1,
         .max_transfer_sz = 4000,
     };
+
+    gpio_set_direction(sd->config.cs_pin, GPIO_MODE_OUTPUT);
+    gpio_set_level(sd->config.cs_pin, 1);
+    vTaskDelay(pdMS_TO_TICKS(20));
 
     ret = spi_bus_initialize(sd->host.slot, &bus_cfg, SDSPI_DEFAULT_DMA);
     if (ret != ESP_OK)

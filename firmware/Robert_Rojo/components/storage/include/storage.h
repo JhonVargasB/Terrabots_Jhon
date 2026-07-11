@@ -43,10 +43,10 @@ typedef struct
 } sd_card_t;
 #define SD_DEFAULT_CONFIG()                  \
     ((sd_config_t){                          \
-        .mosi_pin = (gpio_num_t)ETH_SI,      \
-        .miso_pin = (gpio_num_t)ETH_SO,      \
-        .sclk_pin = (gpio_num_t)ETH_SCK,     \
-        .cs_pin = (gpio_num_t)CS_LLS,        \
+        .mosi_pin = (gpio_num_t)SD_MOSI,     \
+        .miso_pin = (gpio_num_t)SD_MISO,     \
+        .sclk_pin = (gpio_num_t)SD_SCK,      \
+        .cs_pin = (gpio_num_t)SD_CS,         \
         .mount_point = "/sdcard",            \
         .max_files = 5,                      \
         .allocation_unit_size = 16 * 1024,   \

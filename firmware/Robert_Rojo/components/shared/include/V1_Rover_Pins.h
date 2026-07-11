@@ -12,13 +12,20 @@
 #define ETH_RESET 7
 
 #define CS_LLS 36
+
+//Pines para SD
+#define SD_MOSI 9
+#define SD_MISO 8
+#define SD_SCK 7
+#define SD_CS 21
+
 //I2C 0
-#define SDA2 18
-#define SCL2 17
+#define SDA1 18
+#define SCL1 17
 
 //I2C 1 
-#define SDA1 8
-#define SCL1 9
+#define SDA0 8
+#define SCL0 9
 
 //GPS_PINS
 #define RST_GPS_1 39
@@ -27,6 +34,8 @@
 //BNO_PINS
 #define BNO_RST 47
 #define BNO_INT 38 
+
+
 
 #define LED_RGB 16
 #define LED 40
